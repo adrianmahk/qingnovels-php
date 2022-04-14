@@ -71,7 +71,7 @@
 
 //  die();
 // print_r(json_encode(getPostData()));die();
-$post_data = getPostData();
+// $post_data = getPostData();
 // echo get_last_update(true);
 // foreach ($post_data->tags[0]->posts as $post) {
     // importPost('雲想曲 Ⅱ', $post);
