@@ -1,0 +1,27 @@
+{
+    "short_name": "青 . 小說",
+    "name": "青 . 小說",
+    "description": "歡迎來到青 · 小說，我是青鳥，想了解我，可以看我的 blog ──青色的天空，青 ‧ 小說則是青色的天空的姊妹站，輯錄了我寫的小說，期望用簡潔的介面，帶來清新的閱讀體驗～",
+    "icons": [{
+      "src": "/icons/qingsky-512.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }, {
+      "src": "/icons/qingsky-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }],
+    "prefer_related_applications": true,
+    "related_applications": [{
+      "platform": "web",
+      "url": "/"
+    }
+    ],
+    "start_url": "/",
+    "display": "fullscreen",
+    "background_color": "#fefdf3",
+    "orientation": "any",
+    "gcm_sender_id": ""
+}
+  
+  
