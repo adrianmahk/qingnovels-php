@@ -55,7 +55,7 @@
 
                     <div style="text-align: right">
                         <p>最後更新：<?php echo date('Y-m-d', get_last_update(true));?></p>
-                        <p><a onclick="createJsonFromFile('雲想曲 Ⅱ')">create</a></p>
+                        <?php if (strpos($_SERVER['SERVER_NAME'], 'localhost') === 0):?><p><a onclick="createJsonFromFile('雲想曲 Ⅱ')">create</a></p><?php endif;?>
                     </div>
                 </div>
             </div>
