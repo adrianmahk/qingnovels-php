@@ -48,7 +48,7 @@
                         <li><strong>（已更新）</strong>歡迎使用「加入主畫面」功能，進一步精簡介面之餘，亦會於首頁顯示小說（或文集）整體閱讀進度</li>
                     </ul>
 
-                    <p><br><span id="last-read-msg" style="visibility: visible;">上次閱讀：<a id="last-read-a"
+                    <p><br><span id="last-read-msg" style="visibility: hidden;">上次閱讀：<a id="last-read-a"
                                 href="/"></a></span><br>點擊下列文集，即可進入章節列表
                     </p>
 
