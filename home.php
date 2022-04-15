@@ -46,6 +46,7 @@
                                 href="javascript:clearStorage()">清除暫存資料</a></li>
                         <!-- <li><strong>（已更新）</strong>歡迎使用「加入主畫面」功能，進一步精簡介面之餘，亦會於首頁顯示小說（或文集）整體閱讀進度，詳見<a
                                 href="https://www.qingsky.hk/2022/02/progress-bar-update.html">主站文章</a></li> -->
+                        <li><strong>（已更新）</strong>歡迎使用「加入主畫面」功能，進一步精簡介面之餘，亦會於首頁顯示小說（或文集）整體閱讀進度，詳見主站文章</li>
                     </ul>
 
                     <p><br><span id="last-read-msg" style="visibility: visible;">上次閱讀：<a id="last-read-a"
@@ -53,7 +54,7 @@
                     </p>
 
                     <div style="text-align: right">
-                        <p>最後更新：18/2/2021</p>
+                        <p>最後更新：<?php echo date('Y-m-d', get_last_update(true));?></p>
                         <p><a onclick="createJsonFromFile('雲想曲 Ⅱ')">create</a></p>
                     </div>
                 </div>

@@ -56,6 +56,9 @@ function get_last_update($return = false) {
     if ($result && $return) {
         return strtotime($result->last_update);
     }
+    else {
+        echo $result->last_update;
+    }
 }
 
 function sql($sql) {
@@ -125,6 +128,22 @@ function getNextPrevPost() {
     return (object) $return;
 }
 
+function backupPost() {
+    global $servername, $username, $password, $dbname;
+    $conn = new mysqli($servername, $username, $password, $dbname);
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+    $table_name = "posts_" . date('Y-m-d_H:i:s');
+    $conn->query( "START TRANSACTION" );
+    $conn->query("CREATE TABLE `". $table_name ."` LIKE `posts`;");
+    $conn->query("INSERT INTO  `". $table_name ."` SELECT * FROM `posts`;");
+    $conn->query( "COMMIT" );
+    $conn->close();
+
+    return $table_name;
+}
+
 function importPost($tag = '散文', $post) {
     global $servername, $username, $password, $dbname;
 
@@ -135,6 +154,9 @@ function importPost($tag = '散文', $post) {
 		die("Connection failed: " . $conn->connect_error);
 	}
     $conn->query( "START TRANSACTION" );
+    // echo "CREATE TABLE `posts_bak_" . date('Y-m-d_H:i:s') . "` LIKE `posts`;";
+    // echo "INSERT INTO  `posts_bak_" . date('Y-m-d_H:i:s') . "` SELECT * FROM `posts`;";
+
 	$sql = "INSERT INTO `posts` (`id`, `title`, `path`, `snippet`, `image`, `ordering`, `tag`, `is_hidden`, `is_new`) VALUES (NULL, '" . $post->title . "', '". $post->path . "', '" . $post->snippet. "', '" . (isset($post->image) ? $post->image : "") . "', " . $post->ordering . ", '" . $tag . "', " . (isset($post->hidden) ? 1 : 0) . ", '0');";
     // echo $sql . '<br />';
 	$output = $conn->query($sql);
