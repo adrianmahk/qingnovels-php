@@ -3079,3 +3079,10 @@ body.homepage-view .back-button {
 .top-bar .progress-bar.visited {
     display: block;
 }
+#page {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+body.page-loading.ajax-loading #page {
+    opacity: 0.5;
+}
