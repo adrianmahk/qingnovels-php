@@ -283,14 +283,15 @@ function handleLink(anchorEl) {
           +'((\\/|\\?|\#).*'  //ends with / # $
         +')?$'
         , '');
-    var jsCheck = new RegExp('^(javascript:|\#).*?$');
+    var jsCheck = new RegExp('^(javascript:|\#).*?$', '');
+    const imgCheck = new RegExp('(\.jpg|\.gif|\.png|\.jpeg|\.mov|\.mp4|\.woff)$', 'i');
     var href = anchorEl.getAttribute('href');
     if (href) {
-        if (anchorEl.getAttribute("class") && anchorEl.getAttribute("class").match("snippet-a")) {
+        if (anchorEl.classList.contains("snippet-a")) {
             return handlePreviewLink(anchorEl);
         }
         else if (!jsCheck.test(href)) {
-            if (!internalLinkRegex.test(href)) {
+            if (!internalLinkRegex.test(href) || imgCheck.test(href)) {
                 anchorEl.setAttribute('target', '_blank');
             }
             else if (new URL(window.location.href, "http://example.com").pathname === new URL(href, "http://example.com").pathname) {
