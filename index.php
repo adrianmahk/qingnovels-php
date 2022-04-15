@@ -201,7 +201,12 @@
             else {
                 include(__DIR__ . "/post.php");
             }
-            ?>
+      ?>
+      <script async='async' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'/>
+      <ins class='adsbygoogle' data-ad-client='ca-pub-6259217392436204' data-ad-format='fluid' data-ad-layout-key='-gw-3+1f-3d+2z' data-ad-slot='3824983146' style='display:block'/>
+      <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
 			<footer class="footer section" id="footer" name="頁尾">
 				<div class="widget Attribution" data-version="2" id="Attribution1">
 					<div class="widget-content">
