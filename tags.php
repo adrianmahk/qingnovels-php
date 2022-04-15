@@ -31,7 +31,7 @@
             <button class="snippet-cust-button">
                 <div class="snippet-cust" id="snippet-cust">
                 <div class="post-body entry-content float-container" id="post-body">
-                    <?php echo $post->snippet;?>
+                    <?php echo preg_replace('/(<(a )[^>]*>|<\/a>)/i', '',  $post->snippet)?>
                 </div>
                 </div>
                 <?php if ($post->is_new):?>
