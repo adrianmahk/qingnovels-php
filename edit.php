@@ -50,16 +50,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // 'path' => $_POST['path'],
         ];
         $success = updatePost($post, $_POST['password']);
-        if ($success !== false){
+        if ($success === true){
             echo 'Add/Edit post successful.';
             // header('Location: ?path=' . $post->path . '&msg=' . $success);
             header('Location: ?path=' . $post->path);
         }
+        else {
+            echo $success;
+        }
     }
 }
 ?>
-<header>
-</header>
+<head>
+</head>
 <body style="text-align: left; width: 100vw; max-width: 500px; margin: auto">
 <script type='text/javascript'>
     function submitOnEnter(event){
