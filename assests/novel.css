@@ -2255,6 +2255,8 @@ position: absolute;
 }
 .snippet-thumbnail img {
 width: 100%;
+height: 80px;
+object-fit: cover;
 }
 .post-header,
 .post-footer {
