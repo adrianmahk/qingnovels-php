@@ -90,7 +90,8 @@ function sql($sql) {
 }
 
 function getPostDataFromPath($path) {
-    $sql = "SELECT * FROM `posts` WHERE `path` = '". $path ."' LIMIT 1"; 
+    $sql = "SELECT * FROM `posts_sorted` WHERE `path` = '". $path ."' LIMIT 1"; 
+    // echo $sql;
     return sql($sql);
 }
 
@@ -100,7 +101,8 @@ function getTags() {
 }
 
 function getPostsList($tag_name) {
-    $sql = "SELECT * FROM `posts` WHERE `tag` = '" . $tag_name . "' ORDER BY `ordering` asc"; 
+    // $sql = "SELECT * FROM `posts` WHERE `tag` = '" . $tag_name . "' ORDER BY `ordering` asc, `create_date` desc, `update_date` desc"; 
+    $sql = "SELECT * FROM `posts_sorted` WHERE `tag` = '" . $tag_name . "' ORDER BY `display_order` asc"; 
     // echo $sql;
     return sql($sql);
 }
@@ -108,24 +110,22 @@ function getPostsList($tag_name) {
 function getNextPrevPost() {
     global $post;
     if ($post) {
-        $sql = "SELECT `ordering`, `title`, `path` FROM  `posts` WHERE `tag` = '". $post->tag ."' AND (`ordering` = " . ($post->ordering + 1).  " OR `ordering` = " . ($post->ordering - 1).  ") ORDER BY `ordering`"; 
-        // echo $sql;
-    }
-    $results = sql($sql);
-    $return = [];
-    if (!is_array($results)) {
-        $results = [$results];
-    }
-    // echo json_encode($results);
-    foreach ($results as $result) {
-        if ($result->ordering == $post->ordering + 1) {
-            $return['older'] = $result;
+        $sql = "SELECT `display_order`, `title`, `path` FROM  `posts_sorted` WHERE `tag` = '". $post->tag ."' AND (`display_order` = " . ($post->display_order + 1).  " OR `display_order` = " . ($post->display_order - 1).  ") ORDER BY `display_order`";
+        $results = sql($sql);
+        $return = [];
+        if (!is_array($results)) {
+            $results = [$results];
         }
-        else if ($result->ordering == $post->ordering - 1) {
-            $return['newer'] = $result;
+        foreach ($results as $result) {
+            if ($result->display_order > $post->display_order) {
+                $return['older'] = $result;
+            }
+            else if ($result->display_order < $post->display_order) {
+                $return['newer'] = $result;
+            }
         }
+        return (object) $return;
     }
-    return (object) $return;
 }
 
 function backupPost() {
