@@ -61,7 +61,7 @@ function get_last_update($return = false) {
     }
 }
 
-function sql($sql) {
+function sql($sql, $rollback = false) {
     global $servername, $username, $password, $dbname;
 
 	// Create connection
@@ -69,14 +69,22 @@ function sql($sql) {
 	// Check connection
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
-	} 
+	}
+    $conn->query("START TRANSACTION");
 	$output = $conn->query($sql);
+    $conn->query($rollback ? "ROLLBACK" : "COMMIT");
+    // echo $rollback ? "ROLLBACK" : "COMMIT";
+    
     $array = [];
+    if ($output === true) {
+        return true;
+    }
     if ($output && $output->num_rows > 0) {
         while($row = $output->fetch_assoc()) {
             $array []= (object) $row;
         }
     }
+    
 	$conn->close();
 
     if (sizeof($array) == 1) {
@@ -90,7 +98,8 @@ function sql($sql) {
 }
 
 function getPostDataFromPath($path) {
-    $sql = "SELECT * FROM `posts` WHERE `path` = '". $path ."' LIMIT 1"; 
+    $sql = "SELECT * FROM `posts_sorted` WHERE `path` = '". $path ."' LIMIT 1"; 
+    // echo $sql;
     return sql($sql);
 }
 
@@ -100,7 +109,8 @@ function getTags() {
 }
 
 function getPostsList($tag_name) {
-    $sql = "SELECT * FROM `posts` WHERE `tag` = '" . $tag_name . "' ORDER BY `ordering` asc"; 
+    // $sql = "SELECT * FROM `posts` WHERE `tag` = '" . $tag_name . "' ORDER BY `ordering` asc, `create_date` desc, `update_date` desc"; 
+    $sql = "SELECT * FROM `posts_sorted` WHERE `tag` = '" . $tag_name . "' ORDER BY `display_order` asc"; 
     // echo $sql;
     return sql($sql);
 }
@@ -108,24 +118,22 @@ function getPostsList($tag_name) {
 function getNextPrevPost() {
     global $post;
     if ($post) {
-        $sql = "SELECT `ordering`, `title`, `path` FROM  `posts` WHERE `tag` = '". $post->tag ."' AND (`ordering` = " . ($post->ordering + 1).  " OR `ordering` = " . ($post->ordering - 1).  ") ORDER BY `ordering`"; 
-        // echo $sql;
-    }
-    $results = sql($sql);
-    $return = [];
-    if (!is_array($results)) {
-        $results = [$results];
-    }
-    // echo json_encode($results);
-    foreach ($results as $result) {
-        if ($result->ordering == $post->ordering + 1) {
-            $return['older'] = $result;
+        $sql = "SELECT `display_order`, `title`, `path` FROM  `posts_sorted` WHERE `tag` = '". $post->tag ."' AND (`display_order` = " . ($post->display_order + 1).  " OR `display_order` = " . ($post->display_order - 1).  ") ORDER BY `display_order`";
+        $results = sql($sql);
+        $return = [];
+        if (!is_array($results)) {
+            $results = [$results];
         }
-        else if ($result->ordering == $post->ordering - 1) {
-            $return['newer'] = $result;
+        foreach ($results as $result) {
+            if ($result->display_order > $post->display_order) {
+                $return['older'] = $result;
+            }
+            else if ($result->display_order < $post->display_order) {
+                $return['newer'] = $result;
+            }
         }
+        return (object) $return;
     }
-    return (object) $return;
 }
 
 function backupPost() {
@@ -163,6 +171,74 @@ function importPost($tag = '散文', $post) {
     $conn->query( "COMMIT" );
 	$conn->close();
     
+}
+
+
+function updatePost($post, $password = null) {
+    global $editPostPassword;
+    if (!isset($password) || hash('sha512', $password) != $editPostPassword) {
+        return 'password error';
+    }
+
+    $msg = '';
+    if ($post->delete) {
+        $sql = "DELETE FROM `posts` WHERE `path` = '" . $post->path . "'";
+        unlink(__DIR__ . '/posts/'. $post->path);
+    }
+    else {
+        if (!preg_match('/\.html$/',$post->path)) {
+            $post->path = $post->path . '.html';
+        }
+
+        if ($_FILES["image_file"] && $_FILES["image_file"]['name']) {
+            // echo $_FILES["image_file"]["name"];
+            $dir_path =  __DIR__ . '/uploads/';
+            if (is_link($dir_path)){
+                $dir_path = readlink($dir_path);
+            }
+
+            $img_path = $dir_path . $_FILES["image_file"]["name"];
+            if (file_exists($img_path)){
+                return 'Image already exists';
+            }
+            if ($_FILES["image_file"]["size"] > 5000000) {
+                return "Sorry, your file is too large.";
+            }
+            else {
+                move_uploaded_file($_FILES["image_file"]["tmp_name"], $img_path);
+                $post->image = '/uploads/' . $_FILES["image_file"]['name'];
+                $msg .= $img_path . ' added. ';
+            }
+        }
+        if (!$post->ordering || $post->ordering == ''){
+            $post->ordering = sql("SELECT MAX(`ordering`) + 1 as `next` FROM `posts` WHERE tag = '". $post->tag ."'")->next;
+        }
+        
+        $sql = "INSERT INTO `posts` (`id`, `title`, `path`, `snippet`, `image`, `ordering`, `tag`, `is_hidden`, `is_new`) VALUES (NULL, '" . $post->title . "', '". $post->path . "', '" . $post->snippet. "', '" . (isset($post->image) ? $post->image : "") . "', " . $post->ordering . ", '" . $post->tag . "', " . (isset($post->is_hidden) ? $post->is_hidden : 0) . ", ". (isset($post->is_hidden) ? $post->is_new : 0) .")";
+        $sql .= "ON DUPLICATE KEY UPDATE `ordering` = " . $post->ordering . ", `title` = '". $post->title . "', `path` = '". $post->path . "', `snippet` = '". $post->snippet . "', `image` = '". $post->image . "', `tag` = '". $post->tag . "', `is_new` = " . $post->is_new. ", `is_hidden` = " . $post->is_hidden . ", `update_date` = NOW()";
+        // echo $sql . "<br />";
+        
+        $dir_path =  __DIR__ . '/posts/';
+        if (is_link($dir_path)){
+            $dir_path = readlink($dir_path);
+        }
+
+        $file_path = __DIR__ . '/posts/'. $post->path;
+        $new_file = !file_exists($file_path);
+        if ($file = fopen($file_path, 'w')){
+            fwrite($file, $post->content);
+            if ($new_file) {
+                $msg .= '/posts/' . $post->path . ' added. ';
+            }
+        }
+    }
+
+    if (sql($sql)) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 function loadPost($path = null) {

@@ -379,7 +379,7 @@ function getScrollPercent(bottomPadding = 580) {
     const post = document.querySelector(document.body.classList.contains("item-view") ? "#post-body" : "#page");
     const header = document.querySelector('header');
     const top = post.getBoundingClientRect().top - (header ? header.getBoundingClientRect().height : 0);
-    const height = post.getBoundingClientRect().height - window.innerHeight;
+    const height = post.getBoundingClientRect().height - window.innerHeight + (header ? header.getBoundingClientRect().height : 0);
     var percent = 100.0 * (top < 0 ? -top : 0) / height;
     return Math.min(100, (Math.round(percent * 100) / 100));
   }
@@ -459,7 +459,7 @@ function loadScrollPos(popstate = false, bottomPadding = 580) {
         const post = document.querySelector(document.body.classList.contains("item-view") ? "#post-body" : "#page");
         const header = document.querySelector('header');
         // console.log(header.getBoundingClientRect().height);
-        var scrollPosFromPercent = post.getBoundingClientRect().top + window.pageYOffset + (header ? header.getBoundingClientRect().height : 0)  + scrollPos * (post.getBoundingClientRect().height  - window.innerHeight);
+        var scrollPosFromPercent = post.getBoundingClientRect().top + window.pageYOffset - (header ? header.getBoundingClientRect().height : 0)  + scrollPos * (post.getBoundingClientRect().height  - window.innerHeight + (header ? header.getBoundingClientRect().height : 0));
         // var scrollPosFromPercent = post.getBoundingClientRect().top + window.pageYOffset  + scrollPos * (post.getBoundingClientRect().height  - window.innerHeight);
         window.scrollTo({
             top: scrollPosFromPercent,
