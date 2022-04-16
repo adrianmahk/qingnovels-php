@@ -192,17 +192,22 @@ function updatePost($post, $password = null) {
 
         if ($_FILES["image_file"] && $_FILES["image_file"]['name']) {
             // echo $_FILES["image_file"]["name"];
-            $path = '/uploads/'. $_FILES["image_file"]["name"];
-            if (file_exists($path)){
+            $dir_path =  __DIR__ . '/uploads/';
+            if (is_link($dir_path)){
+                $dir_path = readlink($dir_path);
+            }
+
+            $img_path = $dir_path . $_FILES["image_file"]["name"];
+            if (file_exists($img_path)){
                 return 'Image already exists';
             }
             if ($_FILES["image_file"]["size"] > 5000000) {
                 return "Sorry, your file is too large.";
             }
             else {
-                move_uploaded_file($_FILES["image_file"]["tmp_name"],  __DIR__ . $path);
-                $post->image = $path;
-                $msg .= $path . ' added. ';
+                move_uploaded_file($_FILES["image_file"]["tmp_name"], $img_path);
+                $post->image = '/uploads/' . $_FILES["image_file"]['name'];
+                $msg .= $img_path . ' added. ';
             }
         }
         if (!$post->ordering || $post->ordering == ''){
@@ -213,6 +218,11 @@ function updatePost($post, $password = null) {
         $sql .= "ON DUPLICATE KEY UPDATE `ordering` = " . $post->ordering . ", `title` = '". $post->title . "', `path` = '". $post->path . "', `snippet` = '". $post->snippet . "', `image` = '". $post->image . "', `tag` = '". $post->tag . "', `is_new` = " . $post->is_new. ", `is_hidden` = " . $post->is_hidden . ", `update_date` = NOW()";
         // echo $sql . "<br />";
         
+        $dir_path =  __DIR__ . '/posts/';
+        if (is_link($dir_path)){
+            $dir_path = readlink($dir_path);
+        }
+
         $file_path = __DIR__ . '/posts/'. $post->path;
         $new_file = !file_exists($file_path);
         if ($file = fopen($file_path, 'w')){
@@ -224,7 +234,7 @@ function updatePost($post, $password = null) {
     }
 
     if (sql($sql)) {
-        return 'Success ' . $msg;
+        return true;
     }
     else {
         return false;
