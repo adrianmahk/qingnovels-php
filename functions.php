@@ -61,7 +61,7 @@ function get_last_update($return = false) {
     }
 }
 
-function sql($sql) {
+function sql($sql, $rollback = false) {
     global $servername, $username, $password, $dbname;
 
 	// Create connection
@@ -69,14 +69,22 @@ function sql($sql) {
 	// Check connection
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
-	} 
+	}
+    $conn->query("START TRANSACTION");
 	$output = $conn->query($sql);
+    $conn->query($rollback ? "ROLLBACK" : "COMMIT");
+    // echo $rollback ? "ROLLBACK" : "COMMIT";
+    
     $array = [];
+    if ($output === true) {
+        return true;
+    }
     if ($output && $output->num_rows > 0) {
         while($row = $output->fetch_assoc()) {
             $array []= (object) $row;
         }
     }
+    
 	$conn->close();
 
     if (sizeof($array) == 1) {
