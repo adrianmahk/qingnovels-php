@@ -173,6 +173,64 @@ function importPost($tag = '散文', $post) {
     
 }
 
+
+function updatePost($post, $password = null) {
+    global $editPostPassword;
+    if (!isset($password) || hash('sha512', $password) != $editPostPassword) {
+        return 'password error';
+    }
+
+    $msg = '';
+    if ($post->delete) {
+        $sql = "DELETE FROM `posts` WHERE `path` = '" . $post->path . "'";
+        unlink(__DIR__ . '/posts/'. $post->path);
+    }
+    else {
+        if (!preg_match('/\.html$/',$post->path)) {
+            $post->path = $post->path . '.html';
+        }
+
+        if ($_FILES["image_file"] && $_FILES["image_file"]['name']) {
+            // echo $_FILES["image_file"]["name"];
+            $path = '/uploads/'. $_FILES["image_file"]["name"];
+            if (file_exists($path)){
+                return 'Image already exists';
+            }
+            if ($_FILES["image_file"]["size"] > 5000000) {
+                return "Sorry, your file is too large.";
+            }
+            else {
+                move_uploaded_file($_FILES["image_file"]["tmp_name"],  __DIR__ . $path);
+                $post->image = $path;
+                $msg .= $path . ' added. ';
+            }
+        }
+        if (!$post->ordering || $post->ordering == ''){
+            $post->ordering = sql("SELECT MAX(`ordering`) + 1 as `next` FROM `posts` WHERE tag = '". $post->tag ."'")->next;
+        }
+        
+        $sql = "INSERT INTO `posts` (`id`, `title`, `path`, `snippet`, `image`, `ordering`, `tag`, `is_hidden`, `is_new`) VALUES (NULL, '" . $post->title . "', '". $post->path . "', '" . $post->snippet. "', '" . (isset($post->image) ? $post->image : "") . "', " . $post->ordering . ", '" . $post->tag . "', " . (isset($post->is_hidden) ? $post->is_hidden : 0) . ", ". (isset($post->is_hidden) ? $post->is_new : 0) .")";
+        $sql .= "ON DUPLICATE KEY UPDATE `ordering` = " . $post->ordering . ", `title` = '". $post->title . "', `path` = '". $post->path . "', `snippet` = '". $post->snippet . "', `image` = '". $post->image . "', `tag` = '". $post->tag . "', `is_new` = " . $post->is_new. ", `is_hidden` = " . $post->is_hidden . ", `update_date` = NOW()";
+        // echo $sql . "<br />";
+        
+        $file_path = __DIR__ . '/posts/'. $post->path;
+        $new_file = !file_exists($file_path);
+        if ($file = fopen($file_path, 'w')){
+            fwrite($file, $post->content);
+            if ($new_file) {
+                $msg .= '/posts/' . $post->path . ' added. ';
+            }
+        }
+    }
+
+    if (sql($sql)) {
+        return 'Success ' . $msg;
+    }
+    else {
+        return false;
+    }
+}
+
 function loadPost($path = null) {
     $file = __DIR__ . '/posts/'. $path;
     if (file_exists($file)) {
