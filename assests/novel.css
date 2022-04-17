@@ -2634,7 +2634,7 @@ display: block;
 height: 48px;
 text-align: right;
 float: right;
-pointer-events: all;
+pointer-events: none;
 }
 body.item-view #main .right-button-container{
 top: 50px;
@@ -2861,6 +2861,7 @@ width: 30px;
 /*margin: -12px;
 padding: 10px 10px;*/
 color: rgba(0, 180, 180, 1);
+pointer-events: all;
 }
 .hover-hint-message{
 text-align: center;
@@ -2880,6 +2881,7 @@ z-index: 1;
 .search .dark_mode_button{
 display: none;
 float: right;
+pointer-events: all;
 }
 .sticky .search .dark_mode_button{
 display: block;
