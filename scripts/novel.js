@@ -616,7 +616,8 @@ function ajaxLoadHTML(link, ajaxCallback = null, ajaxCallBackArgs = null, append
       else if (this.readyState == 4) {
         hidePageLoading();
         // showPopupMessage(this.responseText);
-        alert(this.responseText);
+        // alert(this.responseText);
+        alert("沒有網絡。");
         anchorEl.classList.remove("disabled");
       }
     };

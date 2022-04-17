@@ -104,7 +104,7 @@ self.addEventListener('fetch', event => {
             }
             else {
               // return new Response('no network', {status: 200, statusText: "OK"});
-              return new Response('No network!', {status: 408, statusText: "Service Worker: No Network & no cache."});
+              // return new Response('No network!', {status: 408, statusText: "Service Worker: No Network & no cache."});
             }
           }
           
