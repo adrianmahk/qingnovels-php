@@ -71,18 +71,25 @@
 
 //  die();
 // print_r(json_encode(getPostData()));die();
-// $post_data = getPostData();
 // echo get_last_update(true);
+// $post_data = getPostData();
+// echo json_encode($post_data->tags[0]->posts);
+// $table_name = backupPost();
 // foreach ($post_data->tags[0]->posts as $post) {
     // importPost('雲想曲 Ⅱ', $post);
+    // importPost('雲想曲 Ⅰ', $post);
     // importPost('散文', $post);
     // importPost('雲想曲．短篇', $post);
+    // importPost('MH．短篇', $post);
+    // importPost('獵傳．櫻花篇', $post);
+    // importPost('滅絕', $post);
 // }
+
 // exit;
 // echo 'a';
 // importPost('雲想曲 Ⅱ', $post_data->tags[0]->posts[0]);
 // echo loadPost('passages-dancing-blade.html');
-
+// echo time();
 ?>
 
 <body class="<?php echo body_class() ?>" onload="" data-js-state="loaded">
@@ -148,7 +155,7 @@
               <path id="Path" fill="#30a080" d="M53.2 11.24 L49.96 11.24 10 49.04 10 51.2 C10 51.2 49.96 89 49.96 89 49.96 89 53.2 89 53.2 89 L59.68 83.6 59.68 79.28 33.76 56.6 33.76 55.52 87.92 56.6 89 55.52 89 44.72 87.92 43.64 33.76 44.72 33.76 43.64 59.68 20.96 59.68 16.64 53.2 11.24 Z" stroke="none" stroke-width="1" stroke-opacity="1" stroke-linejoin="round"/>
              </svg>
           </a>
-          <a class="back-button-to_top" href="javascript:void(0)" onclick="window.scrollTo(0, 0); return false;">
+          <a class="back-button-to_top" href="javascript:void(0)" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
             <svg class="svg-icon-24 rtl-reversible-icon flat-icon-button" width="100px" height="100px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
               <path id="Path" fill="#30a080" d="M53.2 11.24 L49.96 11.24 10 49.04 10 51.2 C10 51.2 49.96 89 49.96 89 49.96 89 53.2 89 53.2 89 L59.68 83.6 59.68 79.28 33.76 56.6 33.76 55.52 87.92 56.6 89 55.52 89 44.72 87.92 43.64 33.76 44.72 33.76 43.64 59.68 20.96 59.68 16.64 53.2 11.24 Z" stroke="none" stroke-width="1" stroke-opacity="1" stroke-linejoin="round"/>
              </svg>

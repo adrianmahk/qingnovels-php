@@ -24,9 +24,7 @@ function init() {
         document.body.setAttribute("page-loaded", true);
     });
     window.addEventListener('click', eventCallback, false);
-    window.addEventListener("scroll", function (e) {
-        handleScrollEvent(e);
-    });
+    window.addEventListener("scroll", handleScrollEvent);
     window.addEventListener("pageshow", loading);
     window.addEventListener("ajaxload", loading);
     window.addEventListener("popstate", function (e) {
@@ -560,16 +558,16 @@ function handleScrollEvent(e, delay = 500) {
     handleScrollPercent();
   }
   
-  adjustTitle();
   var article = document.querySelector("header");
   if (article) {
-    if(article.getBoundingClientRect().bottom < 0 && !document.body.classList.contains("collapsed-header")){
-      document.body.classList.add("collapsed-header");
+      if(article.getBoundingClientRect().bottom < 0 && !document.body.classList.contains("collapsed-header")){
+          document.body.classList.add("collapsed-header");
+        }
+        else if (article.getBoundingClientRect().bottom > 0 && document.body.classList.contains("collapsed-header")) {
+            document.body.classList.remove("collapsed-header");
+        }
     }
-    else if (article.getBoundingClientRect().bottom > 0 && document.body.classList.contains("collapsed-header")) {
-      document.body.classList.remove("collapsed-header");
-    }
-  }
+    adjustTitle();
 
 }
 function updateItemViewProgressBar(progress = false) {
