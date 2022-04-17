@@ -3079,7 +3079,7 @@ float: right;
 }
 body.item-view .changeFontSizeButton {
     /* display: inline-block; */
-    display: initial;
+    display: inline;
 }
 .disabled {
     pointer-events: none;
