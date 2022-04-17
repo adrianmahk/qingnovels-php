@@ -317,14 +317,16 @@ function replaceTitle() {
 }
 
 function adjustTitle() {
-    const title = document.getElementById("post-title") || document.getElementById("search-label");
-    const topBar = document.getElementById("top-bar");
-    // console.log(window.getComputedStyle(title).width, topBar.getBoundingClientRect().width - 80);
-    if (title.clientWidth >= topBar.clientWidth - 80) {
-        title.style.transform = document.body.classList.contains("collapsed-header") ? "scale(0.8)" : "";
-    }
-    else {
-        title.style.transform = '';
+    if (document.body.classList.contains("feed-view") || document.body.classList.contains("item-view")) {
+        const title = document.getElementById("post-title") || document.getElementById("search-label");
+        const topBar = document.getElementById("top-bar");
+        // console.log(window.getComputedStyle(title).width, topBar.getBoundingClientRect().width - 80);
+        if (title.clientWidth >= topBar.clientWidth - 80) {
+            title.style.transform = document.body.classList.contains("collapsed-header") ? "scale(0.8)" : "";
+        }
+        else {
+            title.style.transform = '';
+        }
     }
 }
 
@@ -614,6 +616,8 @@ function ajaxLoadHTML(link, ajaxCallback = null, ajaxCallBackArgs = null, append
       else if (this.readyState == 4) {
         hidePageLoading();
         // showPopupMessage(this.responseText);
+        alert(this.responseText);
+        anchorEl.classList.remove("disabled");
       }
     };
     if (link) {
