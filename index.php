@@ -122,7 +122,24 @@
 		</header>
 		<div class="hero-image">
 		</div>
-		<!--<div style="position: fixed; top:0; left: 0; width: 100%; height: 100%; z-index:-1;" />-->
+
+    <?php if (is_post() || is_tags()):?>
+      <div class="top-sticky-title" style="">
+
+    <div class="post-filter-message">
+    <div class="message-container">
+        <?php if (is_tags()):?>
+          <div><span class="search-label" id="search-label"><?php echo $tag_name?></span></div>
+          <?php else:?>
+          <div style="display: inline-block">
+          <span class="post-title entry-title" id="post-title"><?php echo get_title(); ?></span>
+        </div>
+          <?php endif;?>
+    </div>
+    </div>
+
+          </div>
+    <?php endif;?>
 		<div class="top-bar-container">
       <div class="centered-top top-bar" id="top-bar">
         <div class="return_link back-button-container">
@@ -139,15 +156,6 @@
         </div>
         
         <?php if (is_tags() || is_post()):?>
-        <div class="post-filter-message">
-          <div class="message-container">
-              <?php if (is_tags()):?>
-                <span class="search-label" id="search-label"><?php echo $tag_name?></span>  
-                <?php else:?>
-                <span class="post-title entry-title" id="post-title"><?php echo get_title(); ?></span>
-                <?php endif;?>
-          </div>
-        </div>
         <?php if (is_post())include(__DIR__ . "/blog-pager.php");?>
         <?php if (is_tags()):?>
         <div class="hover-hint-message">移動裝置：點一下預覽文章，點兩下進入文章</div>
@@ -190,6 +198,7 @@
         </div>
       </div>
     </div>
+   
 		<div class="page_body">
 			<?php
             if (is_home()){
