@@ -113,9 +113,14 @@ self.addEventListener('fetch', event => {
               return cachedResponse;
             }
             // Put a copy of the response in the runtime cache.
-            return cache.put(event.request, response.clone()).then(() => {
+            if (response.status == 200) {
+              return cache.put(event.request, response.clone()).then(() => {
+                return response;
+              });
+            }
+            else {
               return response;
-            });
+            }
           }).catch(error => {
             console.log(error);
             if (cachedResponse) {
