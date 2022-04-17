@@ -2835,8 +2835,8 @@ display: none !important;
 display: none;
 }*/
 @media screen and (max-height: 500px){
-.top-bar-container {
-position: relative;
+.top-bar-container, .top-sticky-title {
+position: static !important;
 }
 .widget .title {
 font: normal 500 12px Montserrat, sans-serif;
