@@ -2,7 +2,7 @@
     global $post, $postNextPrev;
 ?>
 
-<div class="blog-pager container" style="position:relative">
+<div class="blog-pager container" style="">
 
 <div class="blog-pager-newer-link">
     <a class="blog-pager-newer-link <?php echo isset($postNextPrev->newer) ? 'visible' : '' ?>" href="<?php echo isset($postNextPrev->newer) ? '/posts/'.$postNextPrev->newer->path : '' ?>" title="<?php echo isset($postNextPrev->newer) ? $postNextPrev->newer->title : '' ?>"

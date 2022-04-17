@@ -1810,7 +1810,7 @@ color: #30a080;
 font: normal 500 24px 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 text-transform: uppercase;
 /*font-weight: lighter;*/
-font-size: min(calc(14px + 1.5vw), 24px);
+/* font-size: min(calc(14px + 1.5vw), 24px); */
 }
 .post-filter-message .home-link,
 .post-filter-message .home-link a {
@@ -2160,11 +2160,14 @@ color: #1abf9f;
 font: normal 400 12px Montserrat, sans-serif;
 text-transform: uppercase;
 }
-.blog-pager.chapter, .top-bar .post-title.entry-title{
+.blog-pager.chapter, .top-bar .post-title.entry-title, .top-sticky-title  .post-title.entry-title {
 color: #30a080;
-font-size: min(calc(12px + 1.5vw), 24px) !important;
+/* font-size: min(calc(12px + 1.5vw), 24px) !important; */
+/* font-size: min(calc(12px + 1.5vw), 24px); */
 margin: .4em 0;
 text-overflow: ellipsis;
+white-space: nowrap;
+max-width: 100%;
 }
 .blog-pager div{
 display: table-cell;
@@ -2625,13 +2628,13 @@ position: absolute;
 margin: 0;
 padding: 0;
 right: 0;
-top: 10px;
+top: 18px;
 width: 100px;
 display: block;
 height: 48px;
 text-align: right;
 float: right;
-pointer-events: all;
+pointer-events: none;
 }
 body.item-view #main .right-button-container{
 top: 50px;
@@ -2788,6 +2791,7 @@ padding-top: 5px;
 padding-bottom: 5px;
 display: block !important;
 pointer-events: all;
+min-height: 50px;
 }
 body.homepage-view .top-bar {
 background: transparent !important;
@@ -2805,7 +2809,9 @@ header.centered-top-container.animating {
 transform: none !important;
 }
 .top-bar .blog-pager.container {
-pointer-events: all;
+    position: absolute;
+    bottom: 0;
+    pointer-events: all;
 padding: 0 1em 4px 1em;
 font-size: 12px;
 width: calc(100% - 2em);
@@ -2829,8 +2835,8 @@ display: none !important;
 display: none;
 }*/
 @media screen and (max-height: 500px){
-.top-bar-container {
-position: relative;
+.top-bar-container, .top-sticky-title {
+position: static !important;
 }
 .widget .title {
 font: normal 500 12px Montserrat, sans-serif;
@@ -2855,6 +2861,7 @@ width: 30px;
 /*margin: -12px;
 padding: 10px 10px;*/
 color: rgba(0, 180, 180, 1);
+pointer-events: all;
 }
 .hover-hint-message{
 text-align: center;
@@ -2862,6 +2869,9 @@ text-align: center;
 font-style: italic;*/
 font: normal 400 12px Montserrat, sans-serif;
 padding-bottom: 4px;
+position: absolute;
+bottom: 0;
+width: 100%;
 }
 .return_link {
 pointer-events: all;
@@ -2871,6 +2881,7 @@ z-index: 1;
 .search .dark_mode_button{
 display: none;
 float: right;
+pointer-events: all;
 }
 .sticky .search .dark_mode_button{
 display: block;
@@ -3067,7 +3078,8 @@ float: right;
     display: none;
 }
 body.item-view .changeFontSizeButton {
-    display: inline-block;
+    /* display: inline-block; */
+    display: initial;
 }
 .disabled {
     pointer-events: none;
@@ -3081,10 +3093,23 @@ body.homepage-view .back-button {
 .top-bar .progress-bar.visited {
     display: block;
 }
+.top-sticky-title {
+    position: sticky;
+    top: 0;
+    z-index: 100; background: transparent;
+    margin-bottom: -1em;
+    pointer-events: none;
+}
 #page {
     opacity: 1;
     transition: opacity 1s ease-in-out;
 }
 body.page-loading.ajax-loading #page {
     opacity: 0.5;
+}
+
+.blog-pager.chapter, .top-bar .post-title.entry-title, .top-sticky-title .post-title.entry-title {
+    /* visibility: hidden; */
+    display: block;
+    transition: transform 0.1s;
 }

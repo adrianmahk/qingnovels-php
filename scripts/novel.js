@@ -24,9 +24,7 @@ function init() {
         document.body.setAttribute("page-loaded", true);
     });
     window.addEventListener('click', eventCallback, false);
-    window.addEventListener("scroll", function (e) {
-        handleScrollEvent(e);
-    });
+    window.addEventListener("scroll", handleScrollEvent);
     window.addEventListener("pageshow", loading);
     window.addEventListener("ajaxload", loading);
     window.addEventListener("popstate", function (e) {
@@ -54,6 +52,7 @@ function init() {
             document.body.removeAttribute("page-loaded");
             document.body.removeAttribute("ajax-popstate");
           }
+        //   adjustTitle();
           handleScrollEvent(0);
         }, 100);
       });
@@ -292,6 +291,7 @@ function handleLink(anchorEl) {
         else if (!jsCheck.test(href)) {
             if (!internalLinkRegex.test(href) || imgCheck.test(href)) {
                 anchorEl.setAttribute('target', '_blank');
+                anchorEl.href = anchorEl.href.replace('//novel.qingsky.hk/', '//aws.qwinna.hk/').replace('//novel-dev.qingsky.hk/', '//aws.qwinna.hk/');
             }
             else if (new URL(window.location.href, "http://example.com").pathname === new URL(href, "http://example.com").pathname) {
                 return true; // same url, just a #
@@ -315,6 +315,19 @@ function replaceTitle() {
         //alert(titles.length);
     }
 }
+
+function adjustTitle() {
+    const title = document.getElementById("post-title") || document.getElementById("search-label");
+    const topBar = document.getElementById("top-bar");
+    // console.log(window.getComputedStyle(title).width, topBar.getBoundingClientRect().width - 80);
+    if (title.clientWidth >= topBar.clientWidth - 80) {
+        title.style.transform = document.body.classList.contains("collapsed-header") ? "scale(0.8)" : "";
+    }
+    else {
+        title.style.transform = '';
+    }
+}
+
 function detectAndroid() {
     //if (/(android)/i.test(navigator.userAgent))
     if (navigator.userAgent.match(/Android/i)
@@ -548,13 +561,14 @@ function handleScrollEvent(e, delay = 500) {
   
   var article = document.querySelector("header");
   if (article) {
-    if(article.getBoundingClientRect().bottom < 0 && !document.body.classList.contains("collapsed-header")){
-      document.body.classList.add("collapsed-header");
+      if(article.getBoundingClientRect().bottom < 0 && !document.body.classList.contains("collapsed-header")){
+          document.body.classList.add("collapsed-header");
+        }
+        else if (article.getBoundingClientRect().bottom > 0 && document.body.classList.contains("collapsed-header")) {
+            document.body.classList.remove("collapsed-header");
+        }
     }
-    else if (article.getBoundingClientRect().bottom > 0 && document.body.classList.contains("collapsed-header")) {
-      document.body.classList.remove("collapsed-header");
-    }
-  }
+    adjustTitle();
 
 }
 function updateItemViewProgressBar(progress = false) {
