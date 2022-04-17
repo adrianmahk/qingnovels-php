@@ -291,6 +291,7 @@ function handleLink(anchorEl) {
         else if (!jsCheck.test(href)) {
             if (!internalLinkRegex.test(href) || imgCheck.test(href)) {
                 anchorEl.setAttribute('target', '_blank');
+                anchorEl.href = anchorEl.href.replace('//novel.qingsky.hk/', '//aws.qwinna.hk/').replace('//novel-dev.qingsky.hk/', '//aws.qwinna.hk/');
             }
             else if (new URL(window.location.href, "http://example.com").pathname === new URL(href, "http://example.com").pathname) {
                 return true; // same url, just a #
