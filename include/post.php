@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="post-footer">
-                <?php include(__DIR__ . "/blog-pager.php");?>
+                <?php include($_SERVER['DOCUMENT_ROOT'] . "/include/blog-pager.php");?>
                 <div class="blog-pager container"><a class="home-link" href="/">首頁</a></div>
             </div>
             </div>

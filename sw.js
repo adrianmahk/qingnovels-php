@@ -84,7 +84,7 @@ self.addEventListener('fetch', event => {
   }
   
   // Skip wp-admin and stuff
-  if ( event.request.url.match( /(wp-admin)|(wp-login)|(phpmyadmin)/i) ) {
+  if ( event.request.url.match( /(wp-admin)|(wp-login)|(phpmyadmin|editposts|editpost\.php)/i) ) {
     return false;
   }
 
