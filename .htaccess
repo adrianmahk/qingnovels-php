@@ -6,10 +6,11 @@ deny from all
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
-# RewriteRule ^index\.php$ - [L]
-RewriteRule index.html index.php
-RewriteRule tags\/([^\/]*)$ index.php [L]
-RewriteRule posts\/([^\/]*)\.html$ index.php [L]
+RewriteRule ^index\.html -
+RewriteRule ^include\/.*$ - [R=403]
+RewriteRule ^tags\/([^\/]{1,})$ index.php [L]
+RewriteRule ^editposts\/(.*)$ editpost.php?path=$1 [L]
+RewriteRule ^posts\/([^\/]*)\.html$ index.php [L]
 # RewriteRule posts/(?!posts-data.json) index.php [L,E=a:posts/index.php?path=$1]
 # RewriteCond %{REQUEST_FILENAME} !-f
 # RewriteCond %{REQUEST_FILENAME} !-d

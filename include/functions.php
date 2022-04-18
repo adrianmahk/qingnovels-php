@@ -43,7 +43,7 @@ function body_class() {
 }
 
 function getPostData($fn = null) {
-    $string = file_get_contents(__DIR__ . "/posts/posts-data.json");
+    $string = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/posts/posts-data.json");
     $json = json_decode(html_entity_decode($string));
     // print_r($json->tags[1]->posts);die();
     return $json;
@@ -183,7 +183,7 @@ function updatePost($post, $password = null) {
     $msg = '';
     if ($post->delete) {
         $sql = "DELETE FROM `posts` WHERE `path` = '" . $post->path . "'";
-        unlink(__DIR__ . '/posts/'. $post->path);
+        unlink($_SERVER['DOCUMENT_ROOT'] . '/posts/'. $post->path);
     }
     else {
         if (!preg_match('/\.html$/',$post->path)) {
@@ -192,7 +192,7 @@ function updatePost($post, $password = null) {
 
         if ($_FILES["image_file"] && $_FILES["image_file"]['name']) {
             // echo $_FILES["image_file"]["name"];
-            $dir_path =  __DIR__ . '/uploads/';
+            $dir_path =  $_SERVER['DOCUMENT_ROOT'] . '/uploads/';
             if (is_link($dir_path)){
                 $dir_path = readlink($dir_path);
             }
@@ -218,12 +218,12 @@ function updatePost($post, $password = null) {
         $sql .= "ON DUPLICATE KEY UPDATE `ordering` = " . $post->ordering . ", `title` = '". $post->title . "', `path` = '". $post->path . "', `snippet` = '". $post->snippet . "', `image` = '". $post->image . "', `tag` = '". $post->tag . "', `is_new` = " . $post->is_new. ", `is_hidden` = " . $post->is_hidden . ", `update_date` = NOW()";
         // echo $sql . "<br />";
         
-        $dir_path =  __DIR__ . '/posts/';
+        $dir_path =  $_SERVER['DOCUMENT_ROOT'] . '/posts/';
         if (is_link($dir_path)){
             $dir_path = readlink($dir_path);
         }
 
-        $file_path = __DIR__ . '/posts/'. $post->path;
+        $file_path = $_SERVER['DOCUMENT_ROOT'] . '/posts/'. $post->path;
         $new_file = !file_exists($file_path);
         if ($file = fopen($file_path, 'w')){
             fwrite($file, $post->content);
@@ -242,9 +242,10 @@ function updatePost($post, $password = null) {
 }
 
 function loadPost($path = null) {
-    $file = __DIR__ . '/posts/'. $path;
+    $file = $_SERVER['DOCUMENT_ROOT'] . '/posts/'. $path;
+    // return $_SERVER['DOCUMENT_ROOT'].'/posts/';
     if (file_exists($file)) {
-        $post = file_get_contents(__DIR__ . '/posts/'. $path);
+        $post = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/posts/'. $path);
         if ($post) {
             return $post;
         }

@@ -1,5 +1,5 @@
 <?php 
-    require __DIR__ . '/functions.php';
+    require __DIR__ . '/include/functions.php';
     require __DIR__ . '/config.php';
 
     $path = $_SERVER['REQUEST_URI'];
@@ -163,7 +163,7 @@
         </div>
         
         <?php if (is_tags() || is_post()):?>
-        <?php if (is_post())include(__DIR__ . "/blog-pager.php");?>
+        <?php if (is_post())include(__DIR__ . "/include/blog-pager.php");?>
         <?php if (is_tags()):?>
         <div class="hover-hint-message">移動裝置：點一下預覽文章，點兩下進入文章</div>
         <?php endif;?>
@@ -209,13 +209,13 @@
 		<div class="page_body">
 			<?php
             if (is_home()){
-                include(__DIR__ . "/home.php");
+                include(__DIR__ . "/include/home.php");
             }
             else if (is_tags()){
-                include(__DIR__ . "/tags.php");
+                include(__DIR__ . "/include/tags.php");
             }
             else {
-                include(__DIR__ . "/post.php");
+                include(__DIR__ . "/include/post.php");
             }
       ?>
       <script async='async' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'/>

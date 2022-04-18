@@ -1,7 +1,7 @@
 
 <?php 
-    require __DIR__ . '/functions.php';
-    require __DIR__ . '/config.php';
+    require $_SERVER['DOCUMENT_ROOT'] . '/include/functions.php';
+    require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
     $path = isset($_GET['path']) ? $_GET['path'] : null;
     $post = null;
     if ($path) {
@@ -53,7 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($success === true){
             echo 'Add/Edit post successful.';
             // header('Location: ?path=' . $post->path . '&msg=' . $success);
-            header('Location: ?path=' . $post->path);
+            // header('Location: ?path=' . $post->path);
+            header('Location: /editposts/' . $post->path);
         }
         else {
             echo $success;
@@ -83,9 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         return false;
     }
 </script>
+<a href="javascript:history.back()">Back</a> <a href="/">Home</a><br />
 <form action="" method="POST" enctype="multipart/form-data">
     Password: <input type="password"style="min-width: 500px; " name="password" value=""/><br />
-    Path: <input type="text"style="min-width: 500px; " name="path" value="<?php echo $path; ?>"/><br />
+    Path: <input type="text"style="min-width: 500px; " name="path" value="<?php echo $post->path; ?>"/><br />
     Title: <input type="text"style="min-width: 500px;" name="title" value="<?php echo $post->title; ?>"/><br />
     Tag: <input type="text" name="tag" value="<?php echo $post->tag; ?>"><br />
     Ordering (Leave blank for latest): <input type="text" name="ordering" value="<?php echo $post->ordering; ?>"><br />

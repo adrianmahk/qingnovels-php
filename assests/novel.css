@@ -2171,7 +2171,7 @@ max-width: 100%;
 }
 .blog-pager div{
 display: table-cell;
-width: 33%;
+width: calc(100% / 3);
 }
 .header-widget .blog-pager.chapter, .sticky .header-widget .blog-pager.home-link {
 display: none;
