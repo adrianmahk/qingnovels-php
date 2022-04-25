@@ -205,9 +205,13 @@ function updatePost($post, $password = null) {
                 return "Sorry, your file is too large.";
             }
             else {
-                move_uploaded_file($_FILES["image_file"]["tmp_name"], $img_path);
-                $post->image = '/uploads/' . $_FILES["image_file"]['name'];
-                $msg .= $img_path . ' added. ';
+                if (move_uploaded_file($_FILES["image_file"]["tmp_name"], $img_path)) {
+                    $post->image = '/uploads/' . $_FILES["image_file"]['name'];
+                    $msg .= $img_path . ' added. ';
+                }
+                else {
+                    return false;
+                }
             }
         }
         if (!$post->ordering || $post->ordering == ''){
@@ -230,6 +234,9 @@ function updatePost($post, $password = null) {
             if ($new_file) {
                 $msg .= '/posts/' . $post->path . ' added. ';
             }
+        }
+        else {
+            return false;
         }
     }
 
@@ -257,6 +264,12 @@ function loadPost($path = null) {
 
 function update_view_count() {	
 	// if (is_home() || is_archive() || is_singular() || is_search() || is_404()) {
+
+    if(isset($_COOKIE['no-count']) && $_COOKIE['no-count'] == '1') {
+        echo 'nocount';
+        return;
+    }
+    
 	if (is_home() || is_post()) {
         global $post, $servername, $username, $password, $dbname;
 
