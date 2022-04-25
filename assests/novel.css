@@ -2026,8 +2026,8 @@ height: 4px;
 min-width: 20px;
 max-width: 124px;
 width: 100%;
-background: #504c44;
-border-radius: 1px;
+/* background: #504c44; */
+border-radius: 1.5px;
 position: absolute;
 pointer-events: none;
 display: block;
@@ -2038,7 +2038,7 @@ z-index: 1;
 bottom: 1px;
 left: 1px;
 height: 4px;
-min-width: 20px;
+min-width: 16px;
 max-width: 124px;
 width: 100%;
 background: #504c44;
@@ -2074,12 +2074,12 @@ background: #282828;
 background: #30a080 !important;
 }
 .label-cust-button .progress-bar {
-min-width: 12px;
+min-width: 16px;
 max-width: 126px;
 }
 .top-bar .progress-bar {
 left: 0;
-min-width: 20px;
+min-width: 5%;
 max-width: 100%;
 bottom: 0;
 height: 4px;
