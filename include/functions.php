@@ -205,9 +205,13 @@ function updatePost($post, $password = null) {
                 return "Sorry, your file is too large.";
             }
             else {
-                move_uploaded_file($_FILES["image_file"]["tmp_name"], $img_path);
-                $post->image = '/uploads/' . $_FILES["image_file"]['name'];
-                $msg .= $img_path . ' added. ';
+                if (move_uploaded_file($_FILES["image_file"]["tmp_name"], $img_path)) {
+                    $post->image = '/uploads/' . $_FILES["image_file"]['name'];
+                    $msg .= $img_path . ' added. ';
+                }
+                else {
+                    return false;
+                }
             }
         }
         if (!$post->ordering || $post->ordering == ''){
@@ -230,6 +234,9 @@ function updatePost($post, $password = null) {
             if ($new_file) {
                 $msg .= '/posts/' . $post->path . ' added. ';
             }
+        }
+        else {
+            return false;
         }
     }
 
