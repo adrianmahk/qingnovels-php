@@ -257,6 +257,12 @@ function loadPost($path = null) {
 
 function update_view_count() {	
 	// if (is_home() || is_archive() || is_singular() || is_search() || is_404()) {
+
+    if(isset($_COOKIE['no-count']) && $_COOKIE['no-count'] == '1') {
+        echo 'nocount';
+        return;
+    }
+    
 	if (is_home() || is_post()) {
         global $post, $servername, $username, $password, $dbname;
 

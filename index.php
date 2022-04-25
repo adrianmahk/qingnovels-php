@@ -20,6 +20,12 @@
             // echo json_encode($postNextPrev);
         }
     }
+
+    if (isset($_GET['no-count']) && $_GET['no-count'] == '1') {
+      $cookie_name = "no-count";
+      $cookie_value = "1";
+      setcookie($cookie_name, $cookie_value, time() + (86400 * 14), "/"); // 86400 = 1 day
+    }
     update_view_count();
     
 ?>
