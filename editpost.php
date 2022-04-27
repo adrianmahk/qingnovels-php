@@ -83,8 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         return false;
     }
+    function hashPassword() {
+        
+    }
 </script>
-<a href="javascript:history.back()">Back</a> <a href="/">Home</a><br />
+<a href="javascript:history.back()">Back</a> <a href="/">Home</a> <?php if ($post->tag != ''): ?><a href="<?php echo '/tags/' . $post->tag?>">Tag</a><?php endif;?><br />
 <form action="" method="POST" enctype="multipart/form-data">
     Password: <input type="password"style="min-width: 500px; " name="password" value=""/><br />
     Path: <input type="text"style="min-width: 500px; " name="path" value="<?php echo $post->path; ?>"/><br />
