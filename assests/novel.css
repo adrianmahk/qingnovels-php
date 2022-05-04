@@ -355,8 +355,8 @@ margin-top: 16px;
 }
 #comments {
 border-top: 1px dashed rgba(0, 0, 0, 0.54);
-margin-top: 20px;
-padding: 20px;
+/* margin-top: 20px; */
+/* padding: 20px; */
 }
 #comments .comment-thread ol {
 margin: 0;
@@ -1850,8 +1850,9 @@ display: none;
 .no-posts {
 text-align: center;
 }
-body.feed-view .widget.Blog .blog-posts .post-outer-container,
-body.item-view .widget.Blog .blog-posts .post-outer {
+/* body.feed-view .widget.Blog .blog-posts .post-outer-container,
+body.item-view .widget.Blog .blog-posts .post-outer { */
+body.feed-view #page_body, body.item-view #page_body {
 margin-bottom: 50px;
 }
 body.feed-view .widget.Blog .blog-posts .post-outer-container{
@@ -3034,7 +3035,7 @@ display: block;
 .AdSense .widget-content {
 text-align: center;
 }
-.widget.AdSense {
+.widget.AdSense, .adsbygoogle {
 position: absolute;
 bottom: 0;
 width: 100%;
