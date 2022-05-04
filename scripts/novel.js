@@ -65,6 +65,7 @@ function loading(event, isAjax = false, isPopstate = false) {
         isAjax = event.detail.isAjax;
         isPopstate = event.detail.isPopstate;
     }
+    console.log("isAjax: " + isAjax);
 
     if (isAjax || event.persisted) {
         // console.log('persisted');
