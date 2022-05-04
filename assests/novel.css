@@ -3032,21 +3032,25 @@ margin: auto;
 @media screen and (max-width: 300px){
 .widget.AdSense, .adsbygoogle {
 width: 200px;
+margin: 0 calc((100% - 200) / 2);
 }
 }
 @media screen and (min-width: 301px) and (max-width: 480px){
 .widget.AdSense, .adsbygoogle {
 width: 454px;
+margin: 0 calc((100% - 454px) / 2);
 }
 }
 @media screen and (min-width: 666px) and (max-width: 844px) {
 .widget.AdSense, .adsbygoogle {
 width: 604px;
+margin: 0 calc((100% - 604px) / 2);
 }
 }
 @media screen and (min-width: 845px) {
 .widget.AdSense, .adsbygoogle {
 width: 756px;
+margin: 0 calc((100% - 756px) / 2);
 }
 }
 
