@@ -2682,9 +2682,6 @@ max-width: 80%;
 margin: auto;
 padding: 0;
 }
-.widget.AdSense, .adsbygoogle {
-width: 454px;
-}
 }
 @media screen and (min-width: 666px) and (max-width: 844px) {
 .centered-bottom {
@@ -2701,10 +2698,6 @@ width: 80%;
 padding-left: 0;
 padding-right: 0;
 }
-.widget.AdSense, .adsbygoogle {
-width: 604px;
-}
-
 .widget .title {
 font: normal 500 14px Montserrat, sans-serif;
 }
@@ -2744,9 +2737,6 @@ width: 80%;
 max-width: calc(740px * .8 + 20vw);
 }
 
-.widget.AdSense, .adsbygoogle {
-width: 756px;
-}
 .widget .title {
 font: normal 500 14px Montserrat, sans-serif;
 }
@@ -3034,11 +3024,32 @@ display: block;
 text-align: center;
 position: absolute;
 bottom: 0;
-width: 80%;
+width: 200px;
 height: 60px;
 margin: auto;
 /* left: 0; */
 }
+@media screen and (max-width: 300px){
+.widget.AdSense, .adsbygoogle {
+width: 200px;
+}
+}
+@media screen and (min-width: 301px) and (max-width: 480px){
+.widget.AdSense, .adsbygoogle {
+width: 454px;
+}
+}
+@media screen and (min-width: 666px) and (max-width: 844px) {
+.widget.AdSense, .adsbygoogle {
+width: 604px;
+}
+}
+@media screen and (min-width: 845px) {
+.widget.AdSense, .adsbygoogle {
+width: 756px;
+}
+}
+
 
 body#layout .hidden,
 body#layout .invisible {
