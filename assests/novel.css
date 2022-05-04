@@ -3032,13 +3032,13 @@ left: 0;
 @media screen and (max-width: 300px){
 .widget.AdSense, .adsbygoogle {
 width: 200px;
-margin: 0 calc((100% - 200) / 2);
+margin: 0 calc((100% - 200px) / 2);
 }
 }
 @media screen and (min-width: 301px) and (max-width: 480px){
 .widget.AdSense, .adsbygoogle {
 width: 300px;
-margin: 0 calc((100% - 300) / 2);
+margin: 0 calc((100% - 300px) / 2);
 }
 }
 @media screen and (min-width: 481px) and (max-width: 665px) {
