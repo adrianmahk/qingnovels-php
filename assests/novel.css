@@ -3026,7 +3026,7 @@ text-align: center;
 bottom: 0;
 width: 200px;
 height: 60px;
-max-height: 60px;
+/* max-height: 60px; */
 overflow: hidden;
 margin: auto;
 left: 0;
@@ -3034,30 +3034,35 @@ left: 0;
 @media screen and (max-width: 300px){
 .widget.AdSense, .adsbygoogle {
 width: 200px;
+max-width: 200px;
 margin: 0 calc((100% - 200px) / 2);
 }
 }
 @media screen and (min-width: 301px) and (max-width: 480px){
 .widget.AdSense, .adsbygoogle {
 width: 300px;
+max-width: 300px;
 margin: 0 calc((100% - 300px) / 2);
 }
 }
 @media screen and (min-width: 481px) and (max-width: 665px) {
 .widget.AdSense, .adsbygoogle {
 width: 454px;
+max-width: 454px;
 margin: 0 calc((100% - 454px) / 2);
 }
 }
 @media screen and (min-width: 666px) and (max-width: 844px) {
 .widget.AdSense, .adsbygoogle {
 width: 604px;
+max-width: 604px;
 margin: 0 calc((100% - 604px) / 2);
 }
 }
 @media screen and (min-width: 845px) {
 .widget.AdSense, .adsbygoogle {
 width: 756px;
+max-width: 756px;
 margin: 0 calc((100% - 756px) / 2);
 }
 }
