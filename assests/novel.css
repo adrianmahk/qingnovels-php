@@ -1352,7 +1352,7 @@ display: flex;
 -webkit-flex-direction: column;
 -ms-flex-direction: column;
 flex-direction: column;
-min-height: 100vh;
+min-height: 60vh;
 position: relative;
 z-index: 20;
 }
