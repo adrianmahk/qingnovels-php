@@ -3022,7 +3022,7 @@ text-align: center;
 .widget.AdSense, .adsbygoogle {
 display: block;
 text-align: center;
-position: absolute;
+/* position: absolute; */
 bottom: 0;
 width: 200px;
 height: 60px;
