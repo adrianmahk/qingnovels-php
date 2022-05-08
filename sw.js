@@ -102,7 +102,6 @@ self.addEventListener('fetch', event => {
   if (isSameOrigin(event.request.url)) {
     event.respondWith(
       caches.match(event.request).then(cachedResponse => {
-        console.log(event.request);
         return caches.open(RUNTIME).then(cache => {
           // return new Response('no network', {status: 200, statusText: "OK"});
           if (cachedResponse && event.request.url.match( /(\.jpg|\.gif|\.png|\.jpeg|\.mov|\.mp4|\.woff)$/i) ) {
