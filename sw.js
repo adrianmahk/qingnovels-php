@@ -43,6 +43,14 @@ self.addEventListener('install', event => {
   
 });
 
+
+async function deleteCacheEntriesMatching(cacheName, regexp) {
+  const cache = await caches.open(cacheName);
+  const cachedRequests = await cache.keys();
+  // request.url is a full URL, not just a path, so use an appropriate RegExp!
+  const requestsToDelete = cachedRequests.filter(request => request.url.match(regexp));
+  return Promise.all(requestsToDelete.map(request => cache.delete(request)));
+}
 // The activate handler takes care of cleaning up old caches.
 self.addEventListener('activate', event => {
   const currentCaches = [PRECACHE, HOME_VERSION, RUNTIME];
@@ -56,6 +64,7 @@ self.addEventListener('activate', event => {
       }));
     }).then(() => self.clients.claim())
   );
+  deleteCacheEntriesMatching(RUNTIME, new RegExp('\/cdn-cgi'));
 });
 
 // The fetch handler serves responses for same-origin resources from a cache.
@@ -93,6 +102,7 @@ self.addEventListener('fetch', event => {
   if (isSameOrigin(event.request.url)) {
     event.respondWith(
       caches.match(event.request).then(cachedResponse => {
+        console.log(event.request);
         return caches.open(RUNTIME).then(cache => {
           // return new Response('no network', {status: 200, statusText: "OK"});
           if (cachedResponse && event.request.url.match( /(\.jpg|\.gif|\.png|\.jpeg|\.mov|\.mp4|\.woff)$/i) ) {
@@ -104,7 +114,7 @@ self.addEventListener('fetch', event => {
             }
             else {
               // return new Response('no network', {status: 200, statusText: "OK"});
-              // return new Response('No network!', {status: 408, statusText: "Service Worker: No Network & no cache."});
+              return new Response('No network!', {status: 408, statusText: "Service Worker: No Network & no cache."});
             }
           }
           
