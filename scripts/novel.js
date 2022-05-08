@@ -47,7 +47,7 @@ function init() {
         // console.log('Body height changed:', entries[0].target.clientHeight);
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
-          if (document.body.getAttribute("page-loaded") == "true") {
+          if (document.body.getAttribute("page-loaded") == "true" || document.body.getAttribute("ajax-popstate") == "true") {
             loadScrollPos(document.body.getAttribute("ajax-popstate") == "true");
             document.body.removeAttribute("page-loaded");
             document.body.removeAttribute("ajax-popstate");
@@ -77,6 +77,9 @@ function loading(event, isAjax = false, isPopstate = false) {
         nodeScriptReplace(document.getElementById("page"));
         // loadScrollPos();
     }
+    if (isPopstate) {
+        document.body.setAttribute("ajax-popstate", true);
+      }
     loadReadingProgress();
     loadNowReading();
     saveNowReading();
@@ -681,7 +684,7 @@ if (state && state.page && state.classList) {
     document.title = state.title ? state.title : "";
     
     // pageShowCallBack(null, true, true);
-    const customEvent = new CustomEvent("ajaxload", {detail: {isAjax: true, isPopstate: true}, bubbles: true, cancelable: true, composed: false});
+    const customEvent = new CustomEvent("ajaxload", {detail: {isAjax: false, isPopstate: true}, bubbles: true, cancelable: true, composed: false});
     body_page.dispatchEvent(customEvent);
     hidePageLoading();
     return true;
