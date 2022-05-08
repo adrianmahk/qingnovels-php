@@ -84,7 +84,7 @@ self.addEventListener('fetch', event => {
   }
   
   // Skip wp-admin and stuff
-  if ( event.request.url.match( /(wp-admin)|(wp-login)|(phpmyadmin|editposts|editpost\.php)/i) ) {
+  if ( event.request.url.match( /(wp-admin)|(wp-login)|(phpmyadmin|editposts|editpost\.php|cdn-cgi)/i) ) {
     return false;
   }
 
@@ -114,8 +114,10 @@ self.addEventListener('fetch', event => {
             }
             // Put a copy of the response in the runtime cache.
             if (response.status == 200) {
-              return cache.put(event.request, response.clone()).then(() => {
-                return response;
+              return cache.delete(event.request, {ignoreSearch: true}).then(() => {
+                return cache.put(event.request, response.clone()).then(() => {
+                  return response;
+                });
               });
             }
             else {
