@@ -4,11 +4,12 @@
     <div class="widget Blog" data-version="2" id="Blog1">
     <div class="blog-posts hfeed container" id="posts-list">
         <?php
-            $posts = getPostsList($tag_name);
-            if (!$posts) {
+            global $tag_posts;
+            // $posts = getPostsList($tag_name);
+            if (!$tag_posts) {
                 echo '沒有文章。';die();
             }
-            foreach ($posts as $post):
+            foreach ($tag_posts as $post):
             if ($post->is_hidden) {
                 continue;
             }

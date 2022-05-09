@@ -9,7 +9,7 @@
     id="blog-pager-newer-link" title="">＜上一篇</a>
 </div>
 <div class="home-link">
-    <?php if (is_post()):?>
+    <?php if (is_post() && !is_404()):?>
     <a class="home-link" id="blog-pager-home-link"
     href="<?php echo '/tags/'.$post->tag ?>"
     rel="tag">回列表</a>

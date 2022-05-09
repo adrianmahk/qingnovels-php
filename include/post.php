@@ -15,13 +15,13 @@
             <div class="post-body-container">
                 <div class="post-body entry-content float-container" id="post-body">
                     <?php
-                        global $post_path;
+                        global $post_path, $post_content;
                         // $path = $_SERVER['REQUEST_URI'];
                         // preg_match('/(?<=\/)[^\/]*\.html$/i', $path, $matches);
-                        if ($post_path) {
+                        if ($post_content) {
                             // echo json_encode($matches);
                             // echo json_encode(getNextPrevPost($post_path));
-                            echo loadPost($post_path);
+                            echo $post_content;
                         }
                         else {
                             echo '找不到文章。';

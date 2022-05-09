@@ -1,13 +1,17 @@
 <?php 
     require __DIR__ . '/include/functions.php';
     require __DIR__ . '/config.php';
-
+    
     $path = $_SERVER['REQUEST_URI'];
     if (is_tags()) {
         preg_match('/(?<=tags\/)([^\/]*)$/i', urldecode($path), $matches);
         if ($matches) {
             $tag_name = $matches[0];
-            // echo $tag_name;
+
+            $tag_posts = getPostsList($tag_name);
+            if (!$tag_posts) {
+              http_response_code(404);
+            }
         }
     }
 
@@ -18,6 +22,11 @@
             $post = getPostDataFromPath($post_path);
             $postNextPrev = getNextPrevPost();
             // echo json_encode($postNextPrev);
+            $post_content = loadPost($post_path);
+            if ($post_content === null) {
+              http_response_code(404);
+              $post_content = '找不到文章。';
+            }
         }
     }
 

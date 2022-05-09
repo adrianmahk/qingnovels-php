@@ -3,10 +3,11 @@
 order allow,deny
 deny from all
 </files>
+ErrorDocument 404 /404.php
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
-RewriteRule ^index\.html -
+RewriteRule ^index\.html/?(\?.*)? -
 RewriteRule ^include\/.*$ - [R=403]
 RewriteRule ^tags\/([^\/]{1,})$ index.php [L]
 RewriteRule ^editposts\/(.*)$ editpost.php?path=$1 [L]

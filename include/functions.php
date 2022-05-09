@@ -12,6 +12,10 @@ function is_tags() {
     return strpos($path, '/tags') === 0;
 }
 
+function is_404() {
+    return (http_response_code() == 404);
+}
+
 function get_title() {
     if (is_home()) {
         return '青 . 小說';
@@ -31,6 +35,9 @@ function get_title() {
 }
 
 function body_class() {
+    if (is_404()) {
+        return 'error404';
+    }
     if (is_home()) {
         return 'homepage-view';
     }
@@ -258,7 +265,7 @@ function loadPost($path = null) {
         }
     }
     else {
-        return '找不到文章。';
+        return null;
     }
 }
 
