@@ -87,14 +87,8 @@
     <a class="blog-pager-newer-link " href="" title="" id="blog-pager-newer-link">＜上一篇</a>
 </div>
 <div class="home-link">
-        <a class="home-link" id="blog-pager-home-link" href="<br />
-<b>Notice</b>:  Trying to get property 'tag' of non-object in <b>/Users/adrianma/Development/Projects/qingnovels-php/include/blog-pager.php</b> on line <b>14</b><br />
-/tags/" rel="tag">回列表</a>
-    <!-- <br/>
-    <a class="home-link" href="/">首頁</a> -->
     </div>
 <div class="blog-pager-older-link">
-    <!-- <a class="blog-pager-older-link" href="https://novel.qwinna.hk/2016/10/cloud2-afterword.html" id="blog-pager-older-link" title="">下一篇＞</a> -->
     <a class="blog-pager-older-link " href="" title="" id="blog-pager-older-link">下一篇＞</a>
 </div>
 
@@ -149,14 +143,8 @@
     <a class="blog-pager-newer-link " href="" title="" id="blog-pager-newer-link">＜上一篇</a>
 </div>
 <div class="home-link">
-        <a class="home-link" id="blog-pager-home-link" href="<br />
-<b>Notice</b>:  Trying to get property 'tag' of non-object in <b>/Users/adrianma/Development/Projects/qingnovels-php/include/blog-pager.php</b> on line <b>14</b><br />
-/tags/" rel="tag">回列表</a>
-    <!-- <br/>
-    <a class="home-link" href="/">首頁</a> -->
     </div>
 <div class="blog-pager-older-link">
-    <!-- <a class="blog-pager-older-link" href="https://novel.qwinna.hk/2016/10/cloud2-afterword.html" id="blog-pager-older-link" title="">下一篇＞</a> -->
     <a class="blog-pager-older-link " href="" title="" id="blog-pager-older-link">下一篇＞</a>
 </div>
 
