@@ -11,9 +11,11 @@ function getParam(name) {
 // Names of the two caches used in this version of the service worker.
 // Change to v2, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
-const PRECACHE = 'precache-v2';
+const PRECACHE = 'precache-v3';
 const HOME_VERSION = 'home-t=' + (getParam('t') ? getParam('t') : '');
 const RUNTIME = 'runtime';
+const RUNTIME_IMAGE = 'runtime_image';
+const IMAGE_EXP = /(\.jpg|\.gif|\.png|\.jpeg|\.mov|\.mp4|\.woff)$/i;
 
 const HOME_URL = [
   './', // Alias for index.html
@@ -43,7 +45,6 @@ self.addEventListener('install', event => {
   
 });
 
-
 async function deleteCacheEntriesMatching(cacheName, regexp) {
   const cache = await caches.open(cacheName);
   const cachedRequests = await cache.keys();
@@ -51,9 +52,30 @@ async function deleteCacheEntriesMatching(cacheName, regexp) {
   const requestsToDelete = cachedRequests.filter(request => request.url.match(regexp));
   return Promise.all(requestsToDelete.map(request => cache.delete(request)));
 }
+async function moveCacheEntriesMatching(cacheName, newCacheName, regexp) {
+  const cache = await caches.open(cacheName);
+  const cachedRequests = await cache.keys();
+  const requestsToDelete = cachedRequests.filter(request => request.url.match(regexp));
+  caches.open(newCacheName).then(cache => {
+    console.log(requestsToDelete);
+    for (let request of requestsToDelete) {
+      caches.match(request).then(cachedResponse => {
+        cache.put(request, cachedResponse)
+      });
+    }
+  });
+  return Promise.all(requestsToDelete.map(request => cache.delete(request)));
+}
+
+function deleteRuntimeImages() {
+  deleteCacheEntriesMatching(RUNTIME, IMAGE_EXP);
+  deleteCacheEntriesMatching(RUNTIME_IMAGE, IMAGE_EXP);
+  deleteCacheEntriesMatching(RUNTIME, new RegExp('\/cdn-cgi'));
+}
+
 // The activate handler takes care of cleaning up old caches.
 self.addEventListener('activate', event => {
-  const currentCaches = [PRECACHE, HOME_VERSION, RUNTIME];
+  const currentCaches = [PRECACHE, HOME_VERSION, RUNTIME, RUNTIME_IMAGE];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
@@ -64,7 +86,6 @@ self.addEventListener('activate', event => {
       }));
     }).then(() => self.clients.claim())
   );
-  deleteCacheEntriesMatching(RUNTIME, new RegExp('\/cdn-cgi'));
 });
 
 // The fetch handler serves responses for same-origin resources from a cache.
@@ -97,15 +118,22 @@ self.addEventListener('fetch', event => {
     return false;
   }
 
+  let isImage = false;
+  let cacheName = RUNTIME;
+  if (event.request.url.match(IMAGE_EXP) ) {
+    isImage = true;
+    cacheName = RUNTIME_IMAGE;
+  }
 
   // Skip cross-origin requests
   if (isSameOrigin(event.request.url)) {
     event.respondWith(
       caches.match(event.request).then(cachedResponse => {
-        return caches.open(RUNTIME).then(cache => {
-          // return new Response('no network', {status: 200, statusText: "OK"});
-          if (cachedResponse && event.request.url.match( /(\.jpg|\.gif|\.png|\.jpeg|\.mov|\.mp4|\.woff)$/i) ) {
-            return cachedResponse;
+        return caches.open(cacheName).then(cache => {
+          if (isImage) {
+            if (cachedResponse) {
+              return cachedResponse;
+            }
           }
           if (!navigator.onLine){
             if (cachedResponse) {
@@ -127,6 +155,10 @@ self.addEventListener('fetch', event => {
                 return cache.put(event.request, response.clone()).then(() => {
                   return response;
                 });
+              }).catch(error => {
+                console.log(error);
+                deleteRuntimeImages();
+                return response;
               });
             }
             else {
@@ -141,7 +173,11 @@ self.addEventListener('fetch', event => {
               return new Response('no network', {status: 200, statusText: "OK"});
             }
           });
+        }).catch(error => {
+          console.log(error);
         });
+      }).catch(error => {
+        console.log(error);
       })
     );
   }
