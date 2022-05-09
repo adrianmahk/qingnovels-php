@@ -369,7 +369,7 @@ function moveBlogPagerToTopBar(fn = null) {
     }
 }
 function saveNowReading() {
-    if (typeof (Storage) !== "undefined" && document.body.classList.contains("item-view")) {
+    if (typeof (Storage) !== "undefined" && document.body.classList.contains("item-view") && !document.body.classList.contains("error404")) {
         // console.log("item-view: " + document.body.classList.contains("item-view"));
         localStorage.setItem("last-read-title", document.title);
         localStorage.setItem("last-read-url", window.location.href);
