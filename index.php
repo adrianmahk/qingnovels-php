@@ -72,9 +72,10 @@
 						console.log('Service worker registration failed:', error);
 					});
 				}
-				navigator.serviceWorker.addEventListener('message', event => {
-					console.log(`The service worker sent me a message: ${event.data}`);
-				});
+				// navigator.serviceWorker.addEventListener('message', event => {
+				// 	console.log(`The service worker sent me a message: ${event.data}`);
+				// });
+        
 			}
 		}
 		ready(setupServiceWorker);

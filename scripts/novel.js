@@ -370,7 +370,7 @@ function moveBlogPagerToTopBar(fn = null) {
 }
 function saveNowReading() {
     if (typeof (Storage) !== "undefined" && document.body.classList.contains("item-view")) {
-        console.log("item-view: " + document.body.classList.contains("item-view"));
+        // console.log("item-view: " + document.body.classList.contains("item-view"));
         localStorage.setItem("last-read-title", document.title);
         localStorage.setItem("last-read-url", window.location.href);
         //localStorage.setItem("last-read-scroll-pos", document.body.scrollTop || document.scrollingElement.scrollTop);
@@ -601,7 +601,7 @@ function ajaxLoadHTML(link, ajaxCallback = null, ajaxCallBackArgs = null, append
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && (this.status == 200 || this.status == 404)) {
-        console.log("ajaxLoadHTML: " + link + " success.");
+        console.log("ajaxLoadHTML: " + link + " success. status: " + this.status );
         if (anchorEl) {
           anchorEl.classList.remove("disabled");
         }
