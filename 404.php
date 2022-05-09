@@ -9,7 +9,7 @@
 	<link href="/icons/qingsky-512.png" rel="apple-touch-icon" sizes="512x512">
 	<title></title>
     <script src="/scripts/novel.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/novel.js')?>" type="text/javascript"></script>
-	<script src="/scripts/standalone.js" type="text/javascript"></script>
+	<!-- <script src="/scripts/standalone.js" type="text/javascript"></script> -->
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 	<!-- Chrome, Firefox OS and Opera -->
 	<meta content="" name="theme-color">

@@ -53,7 +53,7 @@
 	<title><?php echo get_title();?></title>
 	<!-- <script src="https://js.qingsky.hk/fancy-compiled.js" type="text/javascript"> </script> -->
 	<script src="/scripts/novel.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/novel.js')?>" type="text/javascript"></script>
-	<script src="/scripts/standalone.js" type="text/javascript"></script>
+	<!-- <script src="/scripts/standalone.js" type="text/javascript"></script> -->
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 	<!-- Chrome, Firefox OS and Opera -->
 	<meta content="" name="theme-color">
