@@ -19,6 +19,8 @@ const IMAGE_EXP = /(\.jpg|\.gif|\.png|\.jpeg|\.mov|\.mp4|\.woff)$/i;
 
 const HOME_URL = [
   './', // Alias for index.html
+  '/assests/novel.css',
+  '/scripts/novel.js',
 ];
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
@@ -140,8 +142,14 @@ self.addEventListener('fetch', event => {
               return cachedResponse;
             }
             else {
-              // return new Response('no network', {status: 200, statusText: "OK"});
-              return new Response('No network!', {status: 408, statusText: "Service Worker: No Network & no cache."});
+              return caches.match(event.request, {ignoreSearch: true}).then(cachedResponse => {
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
+                else {
+                    return new Response('No network!', {status: 408, statusText: "Service Worker: No Network & no cache."});
+                }
+              });
             }
           }
           
