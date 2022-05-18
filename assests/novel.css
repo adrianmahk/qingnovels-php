@@ -3119,6 +3119,7 @@ body.homepage-view .back-button {
 }
 .top-bar .progress-bar {
     display: none;
+    z-index: 1;
 }
 .top-bar .progress-bar.visited {
     display: block;
