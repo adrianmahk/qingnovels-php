@@ -1,3 +1,14 @@
+var Singleton = (function (){
+    var cache;
+    return function(){
+      if(typeof cache === 'object') return cache;
+      this.p = 'public'
+      cache = this;
+    }
+  }());
+var singleton = () => {
+return new Singleton();
+};
 
 function ready(fn) {
     if (document.readyState != 'loading') {
@@ -17,7 +28,7 @@ ready(function () {
         // loadScrollPos();
     // });
 });
-var resizeTimer = 0;
+
 function init() {
     window.addEventListener('load', function (e) {
         hidePageLoading();
@@ -43,20 +54,29 @@ function init() {
             }
         }
     });
-    const resizeObserver = new ResizeObserver(entries => {
-        // console.log('Body height changed:', entries[0].target.clientHeight);
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-          if (document.body.getAttribute("page-loaded") == "true" || document.body.getAttribute("ajax-popstate") == "true") {
-            loadScrollPos(document.body.getAttribute("ajax-popstate") == "true");
-            document.body.removeAttribute("page-loaded");
-            document.body.removeAttribute("ajax-popstate");
-          }
-        //   adjustTitle();
-          handleScrollEvent(0);
-        }, 100);
-      });
-      resizeObserver.observe(document.getElementById("page"));
+    if (typeof(ResizeObserver) == "function") {
+        const resizeObserver = new ResizeObserver(entries => {
+            resizeCallback();
+        });
+        resizeObserver.observe(document.body);
+      }
+      else {
+        window.addEventListener("pageshow", resizeCallback);
+        window.addEventListener("ajaxload", resizeCallback);
+      }
+}
+
+function resizeCallback(delay = 100) {
+    clearTimeout(singleton().resizeTimer);
+    singleton().resizeTimer = setTimeout(() => {
+      if (document.body.getAttribute("page-loaded") == "true" || document.body.getAttribute("ajax-popstate") == "true") {
+        loadScrollPos(document.body.getAttribute("ajax-popstate") == "true");
+        document.body.removeAttribute("page-loaded");
+        document.body.removeAttribute("ajax-popstate");
+      }
+    //   adjustTitle();
+      handleScrollEvent(0);
+    }, 100);
 }
 
 function loading(event, isAjax = false, isPopstate = false) {
@@ -256,8 +276,8 @@ var triggerTimer = 0;
 function handlePreviewLink(anchorEl, touch) {
     // console.log("handleLink" + (touch ? "" : " touch"));
     console.log(anchorEl);
-    clearTimeout(triggerTimer);
-    triggerTimer = setTimeout(function () {
+    clearTimeout(singleton().triggerTimer);
+    singleton().triggerTimer = setTimeout(function () {
         if (anchorEl.getAttribute('triggered') == 'true' && !touch) {
             // gotoUrlWithDelay(anchorEl.href);
             ajaxLoadHTML(anchorEl, ajaxReplacePage);
@@ -333,22 +353,9 @@ function adjustTitle() {
     }
 }
 
-function detectAndroid() {
-    //if (/(android)/i.test(navigator.userAgent))
-    if (navigator.userAgent.match(/Android/i)
-        || navigator.userAgent.match(/iPhone/i)
-        || navigator.userAgent.match(/iPad/i)
-        || navigator.userAgent.match(/iPod/i)
-    )
-        return true;
-    else
-        return false;
-}
-var mobileDevice = detectAndroid();
-
 function toggleTriggered(button = null, onOff = false) {
-    clearTimeout(triggerTimer);
-    triggerTimer = setTimeout(function () {
+    clearTimeout(singleton().triggerTimer);
+    singleton().triggerTimer = setTimeout(function () {
         var button_list = document.getElementsByClassName('snippet-a');
         for (i = 0; i < button_list.length; i++) {
             button_list[i].setAttribute("triggered", (onOff && button_list[i] == button) ? "true" : "false");
@@ -434,9 +441,14 @@ function saveScrollPos(path = undefined, scrollPercent = undefined) {
             // scrollPercent = (document.body.getAttribute("scrollPos") != undefined) ? document.body.getAttribute("scrollPos") : 0;
             scrollPercent = getScrollPercent();
         }
+        if (document.body.classList.contains("item-view")) {
+            // console.log(path + ": " + scrollPercent);
+            scrollPosObj[path] =  scrollPercent;
+        }
+        else {
+            delete scrollPosObj[path];
+        }
         
-        console.log(path + ": " + scrollPercent);
-        scrollPosObj[path] =  scrollPercent;
         // localStorage.setItem("scrollPosJson", JSON.stringify(scrollPosObj));
         localStorage.setItem("scrollPosJsonURIDecode", JSON.stringify(scrollPosObj));
         }
@@ -455,7 +467,7 @@ function loadScrollPos(popstate = false, bottomPadding = 580) {
     }
     }
 
-    if (popstate || document.body.classList.contains("is-post")) {
+    if (document.body.classList.contains("is-post")) {
     if (typeof (Storage) == "undefined") {
         return;
     }
@@ -463,6 +475,10 @@ function loadScrollPos(popstate = false, bottomPadding = 580) {
     var scrollPosObj = getLocalStorageScrollPos();
     var scrollPos = scrollPosObj ? scrollPosObj[decodeURI(window.location.pathname)] : 0;
     updateItemViewProgressBar(scrollPos);
+    if (popstate) {
+        return;
+    }
+
     if (scrollPos === undefined) {
         saveScrollPos();
     }
@@ -544,9 +560,9 @@ function loadReadingProgress() {
 
     }
 }
-var scrollTimer = 0;
+
 function handleScrollEvent(e, delay = 500) {
-  clearTimeout(scrollTimer);
+  clearTimeout(singleton().scrollTimer);
   var handleScrollPercent = function (){
       if (!document.body.classList.contains("page-loading")) {
           var scrollPercent = getScrollPercent();
@@ -558,7 +574,7 @@ function handleScrollEvent(e, delay = 500) {
     }
   };
   if (delay > 0) {
-    scrollTimer = setTimeout(handleScrollPercent, delay);
+    singleton().scrollTimer = setTimeout(handleScrollPercent, delay);
   }
   else {
     handleScrollPercent();
@@ -605,7 +621,7 @@ function ajaxLoadHTML(link, ajaxCallback = null, ajaxCallBackArgs = null, append
         if (anchorEl) {
           anchorEl.classList.remove("disabled");
         }
-        clearTimeout(timer); 
+        clearTimeout(singleton().ajaxTimer); 
         if (ajaxCallback) {
           var args = {
             responseText: this.responseText,
@@ -631,7 +647,7 @@ function ajaxLoadHTML(link, ajaxCallback = null, ajaxCallBackArgs = null, append
       xhttp.open("GET", link, true);
       xhttp.send();
       showPageLoading(!appendMode);
-      timer = setTimeout(function () {
+      singleton().ajaxTimer = setTimeout(function () {
         hidePageLoading(0);
         xhttp.abort();
         if (anchorEl) {
