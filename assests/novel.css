@@ -2753,7 +2753,7 @@ font-size: 30px;
 /* Top-Bar */
 .top-bar-container {
 z-index: 51;
-position: absolute;
+position: relative;
 position: -webkit-sticky;
 position: sticky;
 top: 0;
@@ -3125,7 +3125,7 @@ body.homepage-view .back-button {
     display: block;
 }
 .top-sticky-title {
-    position: absolute;
+    position: relative;
     position: -webkit-sticky;
     position: sticky;
     top: 0;
