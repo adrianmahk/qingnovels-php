@@ -65,7 +65,7 @@
 	<script>
 		function setupServiceWorker() {
 			if (!document.body.classList.contains('error404')) {
-				if ('serviceWorker' in navigator) {
+				if ('serviceWorker' in navigator && navigator.serviceWorker.controller === null) {
 					navigator.serviceWorker.register("<?php echo  '/sw.js?t='.get_last_update(true)?>", {scope: "<?php echo '/' ?>"}).then(function(registration) {
 						console.log('Service worker registration succeeded:', registration);
 					}, /*catch*/ function(error) {
