@@ -65,20 +65,17 @@
 	<script>
 		function setupServiceWorker() {
 			if (!document.body.classList.contains('error404')) {
-				if ('serviceWorker' in navigator && navigator.serviceWorker.controller === null) {
+				if ('serviceWorker' in navigator) {
 					navigator.serviceWorker.register("<?php echo  '/sw.js?t='.get_last_update(true)?>", {scope: "<?php echo '/' ?>"}).then(function(registration) {
 						console.log('Service worker registration succeeded:', registration);
 					}, /*catch*/ function(error) {
 						console.log('Service worker registration failed:', error);
 					});
 				}
-				// navigator.serviceWorker.addEventListener('message', event => {
-				// 	console.log(`The service worker sent me a message: ${event.data}`);
-				// });
-        
 			}
 		}
-		ready(setupServiceWorker);
+		// ready(setupServiceWorker);
+    window.addEventListener('load', setupServiceWorker);
 	</script>
 </head>
 <?php 
