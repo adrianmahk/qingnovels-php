@@ -3033,6 +3033,12 @@ overflow: hidden;
 margin: auto;
 left: 0;
 }
+.adsbygoogle.dark, body.dark-mode .adsbygoogle {
+    display: none;
+}
+body.dark-mode .adsbygoogle.dark {
+    display: block;
+}
 @media screen and (max-width: 300px){
 .widget.AdSense, .adsbygoogle {
 width: 200px;
@@ -3145,9 +3151,4 @@ body.page-loading.ajax-loading #page {
     /* visibility: hidden; */
     display: block;
     transition: transform 0.1s;
-}
-
-/* AdSense */
-body.dark-mode .rh {
-    background: #282828;
 }
