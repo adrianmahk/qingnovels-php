@@ -3146,3 +3146,8 @@ body.page-loading.ajax-loading #page {
     display: block;
     transition: transform 0.1s;
 }
+
+/* AdSense */
+body.dark-mode .rh {
+    background: #282828;
+}
