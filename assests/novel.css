@@ -3033,11 +3033,17 @@ overflow: hidden;
 margin: auto;
 left: 0;
 }
+.adsbygoogle.dark {
+    position: absolute;
+    top: 0;
+}
 .adsbygoogle.dark, body.dark-mode .adsbygoogle {
     visibility: hidden !important;
+    opacity: 0;
 }
 body.dark-mode .adsbygoogle.dark {
     visibility: visible !important;
+    opacity: 1;
 }
 @media screen and (max-width: 300px){
 .widget.AdSense, .adsbygoogle {
