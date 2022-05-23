@@ -3034,10 +3034,10 @@ margin: auto;
 left: 0;
 }
 .adsbygoogle.dark, body.dark-mode .adsbygoogle {
-    display: none !important;
+    visibility: hidden !important;
 }
 body.dark-mode .adsbygoogle.dark {
-    display: block !important;
+    visibility: visible !important;
 }
 @media screen and (max-width: 300px){
 .widget.AdSense, .adsbygoogle {
