@@ -700,7 +700,7 @@ if (state && state.page && state.classList) {
     document.title = state.title ? state.title : "";
     
     // pageShowCallBack(null, true, true);
-    const customEvent = new CustomEvent("ajaxload", {detail: {isAjax: false, isPopstate: true}, bubbles: true, cancelable: true, composed: false});
+    const customEvent = new CustomEvent("ajaxload", {detail: {isAjax: true, isPopstate: true}, bubbles: true, cancelable: true, composed: false});
     body_page.dispatchEvent(customEvent);
     hidePageLoading();
     return true;
