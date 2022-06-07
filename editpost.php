@@ -27,6 +27,10 @@
 <?php 
 // backupPost();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_POST['aio_special_field']) {
+        return;
+    }
+
     global $editPostPassword;
     if (!isset($_POST['password']) || hash('sha512', $_POST['password']) != $editPostPassword) {
         echo 'password error';
@@ -111,5 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <br />
     <input type="submit" style="width: 100%"/>
+    <p style="display: none;"><label>Enter something special:</label><input name="aio_special_field" type="text" id="aio_special_field" class="aio_special_field" value=""></p>
 </form>
 </body>
