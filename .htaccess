@@ -1,8 +1,8 @@
 # qingnovel-php
-<files config.php>
-order allow,deny
+<FilesMatch "^(\.htaccess|config\.php|\.gitignore)$">
+order deny,allow
 deny from all
-</files>
+</FilesMatch>
 ErrorDocument 404 /404.php
 <IfModule mod_rewrite.c>
 RewriteEngine On
