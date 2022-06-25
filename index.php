@@ -35,7 +35,6 @@
       $cookie_value = "1";
       setcookie($cookie_name, $cookie_value, time() + (86400 * 14), "/"); // 86400 = 1 day
     }
-    update_view_count();
     
 ?>
 <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b"
@@ -79,6 +78,7 @@
 	</script>
 </head>
 <?php 
+update_view_count();
 // echo 'php <br />';
 
 
