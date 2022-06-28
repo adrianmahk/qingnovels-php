@@ -2582,22 +2582,27 @@ background: linear-gradient(to left, #ffffff 0%, #ffffff 20%, rgba(255, 255, 255
 body.item-view.f12px .post-body.entry-content, body.item-view.f13px .post-body.entry-content{
     font-size: 13px;
     font-size: min(calc(13px + 0.05vmin + 0.01vmax), 15px);
+    line-height: 19.5px;
 }
 body.item-view.f14px .post-body.entry-content{
     font-size: 14px;
     font-size: min(calc(14px  + 0.05vmin + 0.01vmax), 16px);
+    line-height: 21px;
 }
 body.item-view.f15px .post-body.entry-content{
     font-size: 15px;
     font-size: min(calc(15px  + 0.05vmin + 0.01vmax), 17px);
+    line-height: 22.5px;
 }
 body.item-view.f16px .post-body.entry-content{
     font-size: 16px;
     font-size: min(calc(16px  + 0.05vmin + 0.01vmax), 18px);
+    line-height: 24px;
 }
 body.item-view.f17px .post-body.entry-content, body.item-view.f18px .post-body.entry-content{
     font-size: 17px;
     font-size: min(calc(17px  + 0.05vmin + 0.01vmax), 19px);
+    line-height: 25.5px;
 }
 /* @media screen and (min-width: 870px) {
 body.item-view .post-body.entry-content, body.item-view.f14px .post-body.entry-content {
