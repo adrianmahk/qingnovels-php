@@ -317,8 +317,8 @@ function update_view_count() {
 		$conn->query($view_count_post_table_sql);
 		$conn->query($view_count_post_sql);
 
-		// $conn->query($view_count_table_sql);
-		// $conn->query($view_count_sql);
+		$conn->query($view_count_table_sql);
+		$conn->query($view_count_sql);
 		// $conn->query($user_region_table_sql);
 		// $conn->query($user_region_sql);
 		
