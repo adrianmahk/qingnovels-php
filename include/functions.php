@@ -272,6 +272,10 @@ function loadPost($path = null) {
 function update_view_count() {	
 	// if (is_home() || is_archive() || is_singular() || is_search() || is_404()) {
 
+    if (is_404()) {
+        return;
+    }
+
     if(isset($_COOKIE['no-count']) && $_COOKIE['no-count'] == '1') {
         echo 'nocount';
         return;
@@ -280,7 +284,7 @@ function update_view_count() {
         return;
     }
     
-	if (is_home() || is_post()) {
+	if (is_home() || is_post() || is_tags()) {
         global $post, $servername, $username, $password, $dbname;
 
         // Create connection
