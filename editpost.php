@@ -91,7 +91,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     }
 </script>
-<a href="javascript:history.back()">Back</a> <a href="/">Home</a> <?php if ($post->tag != ''): ?><a href="<?php echo '/tags/' . $post->tag?>">Tag</a><?php endif;?><br />
+<!-- <a href="javascript:history.back()">Back</a> -->
+<?php if ($post->path != ''): ?><a href="<?php echo '/posts/' . $post->path?>">Post</a> <?php endif;?>
+<a href="/">Home</a>
+<?php if ($post->tag != ''): ?><a href="<?php echo '/tags/' . $post->tag?>">Tag</a><?php endif;?>
+<br />
 <form action="" method="POST" enctype="multipart/form-data">
     Password: <input type="password"style="min-width: 500px; " name="password" value=""/><br />
     Path: <input type="text"style="min-width: 500px; " name="path" value="<?php echo $post->path; ?>"/><br />
